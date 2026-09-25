@@ -47,3 +47,7 @@ app.delete("/expenses/:id", (req, res) => {
     deletedExpense: deletedExpense,
   });
 });
+// GET /expenses - Fetch all expenses
+app.get("/expenses", (req, res) => {
+  res.status(200).json(expenses);
+});
