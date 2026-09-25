@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎀 Pookie's Expense Tracker — Cute & Aesthetic Finance</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Cute Floating Sparkles Background Decor -->
+  <div class="sparkle-bg" aria-hidden="true">
+    <span class="star star-1">✨</span>
+    <span class="star star-2">🌸</span>
+    <span class="star star-3">💖</span>
+    <span class="star star-4">🎀</span>
+    <span class="star star-5">✨</span>
+    <span class="star star-6">🌷</span>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Main App Wrapper -->
+  <div class="app-container">
+    
+    <!-- Pookie Top Header -->
+    <header class="navbar">
+      <div class="brand">
+        <div class="brand-icon">🎀</div>
+        <div class="brand-info">
+          <h1 class="brand-title">Pookie Tracker <span class="heart-pulse">💖</span></h1>
+          <span class="brand-subtitle">Sweet &amp; Mindful Spending</span>
+        </div>
+      </div>
+      <div class="header-tag">
+        <span class="status-dot"></span>
+        <span>🌸 Cute • Simple • Local</span>
+      </div>
+    </header>
+
+    <!-- Main Content Body -->
+    <main class="main-content">
+      
+      <!-- Hero / Welcome Banner -->
+      <section class="welcome-section">
+        <div class="welcome-text">
+          <h2 id="greeting-title" class="welcome-title">Hello Pookie! 🌸</h2>
+          <p class="welcome-subtitle">Keep track of your sweet treats, boba &amp; sparkly spends!</p>
+        </div>
+        <div class="quick-actions">
+          <button id="fetch-all-btn" class="btn btn-pookie-secondary" title="Fetch all expenses from server">
+            <span class="btn-icon">✨</span>
+            <span>Fetch All</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Total Summary Card -->
+      <section class="summary-section">
+        <div class="summary-card">
+          <div class="summary-header">
+            <div class="summary-badge-title">
+              <span class="bow-icon">🎀</span>
+              <span class="summary-label">Total Spent Monies</span>
+            </div>
+            <div class="summary-icon-badge">
+              <span>💸</span>
+            </div>
+          </div>
+          <div class="summary-value" id="total-amount">₹0.00</div>
+          <div class="summary-footer">
+            <span class="badge" id="transaction-count">🎀 0 cute treats</span>
+            <span class="summary-hint">✨ Updated dynamically with love</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Dashboard Grid: Add Expense, Delete Expense, Recent Expenses -->
+      <div class="dashboard-grid">
+        
+        <!-- Left Column: POST & DELETE Action Cards -->
+        <div class="actions-column">
+          
+          <!-- 1. Add Expense Card (POST) -->
+          <section class="card pookie-card" aria-labelledby="add-expense-heading">
+            <div class="card-header">
+              <div class="card-title-group">
+                <span class="card-tag tag-post">🎀 POST</span>
+                <h3 id="add-expense-heading" class="card-title">Add Expense</h3>
+              </div>
+              <p class="card-description">Log a new treat or essential spend</p>
+            </div>
+
+            <!-- Quick Emoji Category Selector -->
+            <div class="emoji-selector-wrapper">
+              <label class="emoji-selector-label">Quick Category Icon:</label>
+              <div class="emoji-selector" id="emoji-selector">
+                <button type="button" class="emoji-btn active" data-emoji="🧋" title="Boba & Drinks">🧋</button>
+                <button type="button" class="emoji-btn" data-emoji="🧁" title="Treats & Food">🧁</button>
+                <button type="button" class="emoji-btn" data-emoji="🛍️" title="Shopping">🛍️</button>
+                <button type="button" class="emoji-btn" data-emoji="💄" title="Beauty & Self Care">💄</button>
+                <button type="button" class="emoji-btn" data-emoji="🌸" title="Travel & Outings">🌸</button>
+                <button type="button" class="emoji-btn" data-emoji="💌" title="Bills & Others">💌</button>
+              </div>
+            </div>
+
+            <form id="expense-form" class="form" novalidate>
+              <!-- Expense Name -->
+              <div class="form-group">
+                <label for="expense-name" class="form-label">Expense Name 🌸</label>
+                <div class="input-wrapper">
+                  <input 
+                    type="text" 
+                    id="expense-name" 
+                    name="expenseName" 
+                    class="form-input" 
+                    placeholder="e.g. Strawberry Boba, Cute plushie..." 
+                    autocomplete="off"
+                    required
+                  >
+                </div>
+                <span class="form-error" id="name-error" aria-live="polite"></span>
+              </div>
+
+              <!-- Expense Amount -->
+              <div class="form-group">
+                <label for="expense-amount" class="form-label">Amount (₹) 💖</label>
+                <div class="input-wrapper amount-wrapper">
+                  <span class="currency-symbol">₹</span>
+                  <input 
+                    type="number" 
+                    id="expense-amount" 
+                    name="expenseAmount" 
+                    class="form-input amount-input" 
+                    placeholder="0.00" 
+                    step="any"
+                    min="0.01" 
+                    required
+                  >
+                </div>
+                <span class="form-error" id="amount-error" aria-live="polite"></span>
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" id="submit-btn" class="btn btn-pookie-primary btn-block">
+                <span class="btn-text">💖 Add Expense ✨</span>
+                <div class="btn-spinner hidden" aria-hidden="true"></div>
+              </button>
+            </form>
+          </section>
+
+          <!-- 2. Delete Expense Card (DELETE Option) -->
+          <section class="card pookie-card" aria-labelledby="delete-expense-heading">
+            <div class="card-header">
+              <div class="card-title-group">
+                <span class="card-tag tag-delete">🗑️ DELETE</span>
+                <h3 id="delete-expense-heading" class="card-title">Delete Expense</h3>
+              </div>
+              <p class="card-description">Remove a transaction by selecting its ID</p>
+            </div>
+
+            <form id="delete-form" class="form" novalidate>
+              <div class="form-group">
+                <label for="delete-id-input" class="form-label">Select or Enter Expense ID 💔</label>
+                <div class="input-wrapper">
+                  <input 
+                    type="text" 
+                    id="delete-id-input" 
+                    class="form-input" 
+                    placeholder="Enter ID (e.g. 1 or select below)" 
+                    autocomplete="off"
+                  >
+                </div>
+                <span class="form-error" id="delete-error" aria-live="polite"></span>
+              </div>
+
+              <button type="submit" id="delete-submit-btn" class="btn btn-pookie-danger btn-block">
+                <span class="btn-text">💔 Delete Expense</span>
+                <div class="btn-spinner hidden" aria-hidden="true"></div>
+              </button>
+            </form>
+          </section>
+
+        </div>
+
+        <!-- Right Column: Recent Expenses List (GET / FETCH ALL) -->
+        <div class="list-column">
+          <section class="card pookie-card" aria-labelledby="recent-expenses-heading">
+            <div class="card-header flex-between">
+              <div>
+                <div class="card-title-group">
+                  <span class="card-tag tag-get">📋 GET</span>
+                  <h3 id="recent-expenses-heading" class="card-title">Recent Expenses 🧁</h3>
+                </div>
+                <p class="card-description">Everything you have recorded so far</p>
+              </div>
+              <button id="refresh-list-btn" class="icon-button" title="Fetch / Refresh all expenses" aria-label="Refresh expenses">
+                <span class="icon-refresh">🔄</span>
+              </button>
+            </div>
+
+            <!-- Expense List Container -->
+            <div class="expense-list-container">
+              
+              <!-- Loading Indicator -->
+              <div id="loading-state" class="state-container hidden">
+                <div class="pookie-spinner">🌸</div>
+                <p class="state-text">Fetching your cute expenses...</p>
+              </div>
+
+              <!-- Server Connection Error State -->
+              <div id="error-state" class="state-container hidden">
+                <div class="pookie-badge-error">😴</div>
+                <h4 class="error-title">Backend is snoozing!</h4>
+                <p class="error-description">Make sure the server is awake on <code>http://localhost:3000</code></p>
+                <button id="retry-btn" class="btn btn-pookie-secondary btn-sm">
+                  <span>🌸 Wake Up &amp; Try Again</span>
+                </button>
+              </div>
+
+              <!-- Empty State -->
+              <div id="empty-state" class="state-container hidden">
+                <div class="pookie-empty-art">🧸</div>
+                <h4 class="empty-title">No expenses yet, pookie!</h4>
+                <p class="empty-description">Your piggy bank is completely safe and sound. Add your first treat above!</p>
+                <button id="empty-add-btn" class="btn btn-pookie-primary btn-sm">
+                  <span>✨ + Add First Expense</span>
+                </button>
+              </div>
+
+              <!-- Expense List Element -->
+              <ul id="expense-list" class="expense-list"></ul>
+            </div>
+          </section>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Made with 💖 for Pookie &bull; Powered by HTML, CSS &amp; Vanilla JavaScript 🎀</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
