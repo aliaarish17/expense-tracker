@@ -1,10 +1,14 @@
-//POST FEATURE
+// Expense Tracker Backend
+
+
+
 const express = require("express");
+const cors = require("cors");
 
 const app = express();
 const PORT = 3000;
 
-// Middleware to read JSON request bodies
+app.use(cors());
 app.use(express.json());
 
 // Temporary in-memory storage
@@ -25,9 +29,9 @@ app.post("/expenses", (req, res) => {
   res.status(201).json(expense);
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+// GET /expenses
+app.get("/expenses", (req, res) => {
+  res.status(200).json(expenses);
 });
 
 // DELETE /expenses/:id
@@ -37,7 +41,9 @@ app.delete("/expenses/:id", (req, res) => {
   const index = expenses.findIndex((expense) => expense.id === id);
 
   if (index === -1) {
-    return res.status(404).json({ message: "Expense not found" });
+    return res.status(404).json({
+      message: "Expense not found",
+    });
   }
 
   const deletedExpense = expenses.splice(index, 1)[0];
@@ -47,7 +53,8 @@ app.delete("/expenses/:id", (req, res) => {
     deletedExpense: deletedExpense,
   });
 });
-// GET /expenses - Fetch all expenses
-app.get("/expenses", (req, res) => {
-  res.status(200).json(expenses);
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
 });
